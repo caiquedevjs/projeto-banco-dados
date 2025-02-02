@@ -61,3 +61,73 @@ O sistema integrará informações sobre **espécies de corais**, **localizaçõ
         - Distribuição de espécies em diferentes regiões.
         - Espécies mais afetadas por ameaças.
         - Relação entre condições ambientais e estado de conservação dos corais.
+     
+
+
+    # **Modelagem Inicial:**
+
+### **Modelo Conceitual:**
+
+**Modelo conceitual feito no Brmodelo:** 
+https://app.brmodeloweb.com/#!/publicview/6783dd5e6f7ba2f21fe05f5a
+
+
+As principais entidades e atributos incluem:
+
+1. **Coral**:
+    - `id_coral`
+    - `nome_cientifico`
+    - `nome_comum`
+    - `familia`
+    - `caracteristicas`
+    - `estado_conservacao`
+2. **Localizacao**:
+    - `id_localizacao`
+    - `latitude`
+    - `longitude`
+    - `profundidade`
+    - `regiao`
+    - `id_coral`
+3. **Condicao_Ambiental**:
+    - `id_condicao`
+    - `temperatura`
+    - `salinidade`
+    - `ph`
+    - `poluentes`
+    - `id_localizacao`
+4. **Ameaça**:
+    - `id_ameaca`
+    - `descricao`
+    - `data`
+    - `impacto`
+    - `id_localizacao`
+5. **Pesquisador**:
+    - `id_pesquisador`
+    - `nome`
+    - `instituicao`
+    - `regiao`
+    1. **Histórico de monitoramento:**
+    - `id_monitoramento`
+    - `data_monitoramento`
+    - `id_localizacao_fk`
+    - `descricao_monitoramento`
+    - `observacoes`
+    
+
+### **Modelo Lógico:**
+
+**Modelo lógico feito no Brmodelo:** https://app.brmodeloweb.com/#!/publicview/6784368b6f7ba2f21fe0620b
+
+
+- **Relacionamento entre Projeto de Pesquisa e Pesquisador**: Cada projeto de pesquisa pode ter vários pesquisadores associados, e cada pesquisador deve estar vinculado a um único projeto.
+- **Relacionamento entre Região e Localização**: Cada região pode conter várias localizações onde os corais são monitorados, e cada localização está associada a uma única região.
+- **Relacionamento entre Coral e Localização**: Cada coral pode ser encontrado em uma ou mais localizações, e cada localização pode ter várias espécies de corais associadas a ela.
+- **Relacionamento entre Pesquisador e Localização**: Um pesquisador pode registrar dados de várias localizações, mas cada entrada de localização em que um pesquisador trabalha pertence a uma única instância no momento do registro.
+- **Relacionamento entre Localização e Ameaça**: Uma localização pode estar sujeita a várias ameaças identificadas, e cada ameaça está vinculada a uma única localização.
+- **Relacionamento entre Localização e Condição Ambiental**: Cada localização terá registros periódicos de condições ambientais que afetam os corais, como temperatura, salinidade e nível de pH.
+- **Relacionamento entre Interações e Coral**: A tabela de interações registra relações entre pares de corais. Cada interação envolve dois corais distintos, permitindo monitorar o tipo e o modelo de interação ecológica.
+- **Relacionamento entre Histórico de Monitoramento e Localização**: Cada registro histórico de monitoramento documenta um evento específico de monitoramento ambiental ou de ameaça em uma localização particular.
+- **Constrainsts de Integridade**:
+    - **Chaves Primárias**: As tabelas usam a coluna `id` correspondente com o tipo `SERIAL` para garantir a exclusividade de cada registro.
+    - **Chaves Estrangeiras**: Todas as relações que conectam tabelas garantem referenciamento consistente por meio de `FOREIGN KEY`, com ações de `ON DELETE CASCADE` e `ON UPDATE CASCADE` para manter a integridade referencial em caso de atualizações ou exclusões.
+    - **Restrições de Domínio**: Valores como `estado_conservacao` e `data_observacao` têm restrições para garantir que os dados estejam dentro de limites significativos e válidos.
